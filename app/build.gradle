@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.0 rc3"
 
     defaultConfig {
-        applicationId "andyou.hyapps.cmcc.com.myapplication"
+        applicationId "com.cmcc.hyapps.andyou"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1

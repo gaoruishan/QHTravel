@@ -25,4 +25,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
+    compile files('libs/gson-2.3.1.jar')
+    compile files('libs/Android_Location_V1.3.0.jar')
+    compile files('libs/AMap_3DMap_V2.4.1.jar')
+    compile files('libs/zxing.jar')
+    compile files('libs/butterknife-5.1.0.jar')
+    compile files('libs/universal-imageloader-1.9.3.jar')
+    compile files('libs/umeng-analytics-v5.2.4.jar')
+    compile files('libs/AMap_Services_V2.3.1.jar')
+    compile files('libs/com.umeng.fb.v5.1.0.jar')
 }

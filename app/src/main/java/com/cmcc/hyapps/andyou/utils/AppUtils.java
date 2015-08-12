@@ -39,14 +39,10 @@ public final class AppUtils {
     private static final String KEY_USER = "key_user";
     private static final String KEY_QHUSER = "key_qhuser";
     private static final String KEY_OLD_AVATAR = "key_old_avatar";
-
     private static String sDeviceId = null;
     private static String sUUID = null;
     private static final String INSTALLATION = "INSTALLATION";
 
-    /**
-     * 
-     */
     public AppUtils() {
     }
 

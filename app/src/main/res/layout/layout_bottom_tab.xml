@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cmcc.hyapps.andyou.widget.BottomTab xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_tab"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_tab_height"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TextView
+        style="@style/bottom_tab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_bottom_tab_home_selector"
+        android:text="@string/bottom_tab_title_destiy" />
+
+    <TextView
+        style="@style/bottom_tab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_bottom_tab_live_selecter"
+        android:text="@string/bottom_tab_title_live" />
+
+    <TextView
+        style="@style/bottom_tab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_bottom_tab_shop_selector"
+        android:text="@string/bottom_tab_title_discovery" />
+
+    <TextView
+        style="@style/bottom_tab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_bottom_tab_me_selecter"
+        android:text="@string/bottom_tab_title_me" />
+
+</com.cmcc.hyapps.andyou.widget.BottomTab>

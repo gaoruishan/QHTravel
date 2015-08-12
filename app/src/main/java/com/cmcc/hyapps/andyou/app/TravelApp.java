@@ -25,11 +25,11 @@ import com.umeng.fb.push.FeedbackPush;
  * 整个应用的
  */
 public class TravelApp extends Application {
-    private static final String TAG = "Travel";
-    private static TravelApp instance;
+    public static final String TAG = "Travel";
+    public static TravelApp instance;
     //记录当前所在位置
-    private Location mCurrentLocation;
-    private static Context mContext;
+    public Location mCurrentLocation;
+    public static Context mContext;
 
     public static Context getContext(){
         return mContext;

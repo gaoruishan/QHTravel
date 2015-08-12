@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.cmcc.hyapps.andyou.update.CheckUpdateUtil;
+
 /**
  * ToastUtils
  * 

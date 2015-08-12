@@ -17,6 +17,7 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 
 /**
  * Created by Administrator on 2015/6/9.
+ * 地理位置－工具
  */
 public class LocationUtil {
 

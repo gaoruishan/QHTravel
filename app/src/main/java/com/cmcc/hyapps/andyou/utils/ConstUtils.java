@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Administrator on 2015/4/9.
  */
-public class ConstTools {
+public class ConstUtils {
     public  static int SECIAL_HEAD_TITLE_COLOR = 0xffffffff;
     public  static int SECIAL_HEAD_BG_COLOR = 0xff10d7f1;
     public  static int LINECOLOR = 0xffdbdbdb;
@@ -50,38 +50,11 @@ public class ConstTools {
         Matcher m = p.matcher(phone);
         return m.find();//boolean
     }
-//    public static String getDistance(double star_lat,double star_lon,double end_lat,double end_lon){
-//        LatLng start = new LatLng(star_lat, star_lon);
-//        LatLng end = new LatLng(end_lat, end_lon);
-//        float my_distance = AMapUtils.calculateLineDistance(start, end);
-//        String str_distance;
-//        if (my_distance > 1000)
-//            str_distance = (int) (my_distance / 1000) + "Km";
-//        else str_distance = my_distance + "m";
-//        return str_distance;
-//    }
-//    public static String getDistance( LatLng start, LatLng end){
-//        float my_distance = AMapUtils.calculateLineDistance(start, end);
-//        String str_distance;
-//        if (my_distance > 1000)
-//        {
-////            if((my_distance / 1000)>10000)str_distance = "未知";//有坐标经纬度值是0,0
-////            else
-//                str_distance = (int) (my_distance / 1000) + "Km";
-//        }
-//        else str_distance = my_distance + "m";
-//        return str_distance;
-//    }
-//    public static double getDistanceFromMe( double star_lat,double star_lon){
-//        LatLng start = new LatLng(star_lat, star_lon);
-//        LatLng end = new LatLng(myCurrentLoacation.latitude, myCurrentLoacation.longitude);
-//        float my_distance = AMapUtils.calculateLineDistance(start, end);
-//        return my_distance;
-//    }
 
     public static boolean isNumeric(String str){
 
         if(null==str) return false;
+
         str = str.trim();
         Pattern pattern = Pattern.compile("-?[0-9]+.*[0-9]*");//-?[0-9]+.*[0-9]*//[0-9]*
         Matcher isNum = pattern.matcher(str);

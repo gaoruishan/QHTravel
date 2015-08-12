@@ -24,10 +24,9 @@ import com.android.volley.toolbox.Volley;
 import com.cmcc.hyapps.andyou.R;
 import com.cmcc.hyapps.andyou.model.Token;
 import com.cmcc.hyapps.andyou.utils.AppUtils;
-import com.cmcc.hyapps.andyou.utils.ConstTools;
+import com.cmcc.hyapps.andyou.utils.ConstUtils;
 import com.cmcc.hyapps.andyou.utils.NetUtils;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,64 +52,6 @@ public class RequestManager {
     //volley的图片加载器
     private ImageLoader mImageLoader;
 
-    //快速请求队列，区别？
-    private RequestQueue mSoapRequestQueue;
-    //volley的http堆，用来干嘛？执行http请求，得到响应信息，并放到mSoapHttpStack中
-//    private HttpStack mSoapHttpStack = new HttpStack() {
-//
-//        @Override
-//        public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
-//                throws IOException, AuthFailureError {
-//
-//            SoapRequest r = (SoapRequest) request;
-//            SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-//            envelope.bodyOut = r.getSoapObject();
-//            envelope.setOutputSoapObject(r.getSoapObject());
-//
-//            HttpResponse res = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion(
-//                    "HTTP", 1, 1), 200, ""));
-//            HttpTransportSE transport = new HttpTransportSE(r.getUrl());
-//            try {
-//                transport.call("", envelope);
-//                SoapObject result = (SoapObject) envelope.bodyIn;
-//                res.setEntity(entityFromConnection(r, result));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return res;
-//        }
-//    };
-
-    //将服务器返回的response实体化
-//    private HttpEntity entityFromConnection(SoapRequest request, SoapObject result)
-//            throws UnsupportedEncodingException {
-//        BasicHttpEntity entity = new BasicHttpEntity();
-//        String content = "";
-//        // TODO: find a better solution
-//        if (ServerAPI.LiveVideos.METHOD_GET_PLAY_URL.equals(request.getSoapObject().getName())) {
-//            if (result.getPropertyCount() == 2) {
-//                content = result.getPropertyAsString("rtspUrl");
-//            }
-//        } else if (ServerAPI.LiveVideos.METHOD_GET_PIC_LIST.equals(request.getSoapObject()
-//                .getName())) {
-//            if (result.getPropertyCount() == 2) {
-//                if (result.getProperty(1) instanceof SoapObject) {
-//                    SoapObject picList = (SoapObject) result.getProperty(1);
-//                    if (picList.getPropertyCount() > 0) {
-//                        SoapObject picNode = (SoapObject) picList.getProperty(0);
-//                        content = picNode.getPropertyAsString("picUrl");
-//                    }
-//                }
-//            }
-//        }
-//
-//        entity.setContent(new ByteArrayInputStream(content.getBytes(
-//                "UTF_8")));
-//        entity.setContentLength(content.length());
-//        // entity.setContentEncoding(connection.getContentEncoding());
-//        // entity.setContentType(connection.getContentType());
-//        return entity;
-//    }
 
     /**
      * 在appliction中初始化
@@ -127,7 +68,6 @@ public class RequestManager {
         int cacheSize = 1024 * 1024 * memCls;
         mImageLoader = new ImageLoader(mRequestQueue, new BitmapLruCache(cacheSize));
 
-//        mSoapRequestQueue = Volley.newRequestQueue(context, mSoapHttpStack);
     }
 
     public RequestQueue getRequestQueue() {
@@ -271,7 +211,7 @@ public class RequestManager {
         // Now send the request to fetch data
         android.util.Log.e("联网请求url:",""+url);
         if(null!=params&&params.size()>0){
-            String strPar = ConstTools.map2string(params);
+            String strPar = ConstUtils.map2string(params);
             android.util.Log.e("联网请求params:",""+strPar);
         }
 
@@ -348,7 +288,7 @@ public class RequestManager {
         // Now send the request to fetch data
         android.util.Log.e("联网请求url:",""+url);
         if(null!=params&&params.size()>0){
-            String strPar = ConstTools.map2string(params);
+            String strPar = ConstUtils.map2string(params);
             android.util.Log.e("联网请求params:",""+strPar);
         }
 

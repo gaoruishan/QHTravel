@@ -13,7 +13,7 @@ import com.cmcc.hyapps.andyou.adapter.AMapLocationListenerAdapter;
 import com.cmcc.hyapps.andyou.app.Const;
 import com.cmcc.hyapps.andyou.app.TravelApp;
 import com.cmcc.hyapps.andyou.model.Location;
-import com.cmcc.hyapps.andyou.utils.ConstTools;
+import com.cmcc.hyapps.andyou.utils.ConstUtils;
 import com.cmcc.hyapps.andyou.utils.Log;
 
 import java.util.List;
@@ -62,7 +62,7 @@ public class LocationService extends Service {
         };
         mLocationManager = LocationManagerProxy.getInstance(mContext);
         // API定位采用GPS定位方式，第一个参数是定位provider，第二个参数时间最短是2000毫秒，第三个参数距离间隔单位是米，第四个参数是定位监听者
-        mLocationManager.requestLocationData(LocationManagerProxy.GPS_PROVIDER, ConstTools.AUTO_GUIDE_INTERVAL, 10, mLocationCb);
+        mLocationManager.requestLocationData(LocationManagerProxy.GPS_PROVIDER, ConstUtils.AUTO_GUIDE_INTERVAL, 10, mLocationCb);
 
     }
 

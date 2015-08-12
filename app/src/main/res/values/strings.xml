@@ -44,6 +44,27 @@
     <string name="no_result">对不起，没有搜索到相关数据！</string>
     <!-- END Common -->
 
+    <!-- BEGIN  景区 -->
+    <string name="action_bar_title_scenic">景区</string>
+    <string name="get_location_timeout">获取位置超时</string>
+    <string name="location_failed">定位失败，点击手动定位</string>
+    <string name="action_bar_title_city">城市选择</string>
+    <string name="city_list_hint">输入城市或拼音</string>
+    <string name="detected_city">定位城市</string>
+    <string name="hot_cities">热门城市</string>
+    <string name="unknown_city">未定位</string>
+    <!-- END 景区 -->
+
+    <!-- BEGIN Bottom tab -->
+    <string name="bottom_tab_title_destiy">首页</string>
+    <string name="bottom_tab_title_areas">景区</string>
+    <string name="bottom_tab_title_live">发现</string>
+    <string name="bottom_tab_title_discovery">商户</string>
+    <string name="bottom_tab_title_me">我的</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- END Bottom tab -->
 
 
 </resources>

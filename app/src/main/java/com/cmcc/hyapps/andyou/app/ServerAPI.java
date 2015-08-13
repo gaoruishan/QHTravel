@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServerAPI {
-    // Test server
+    // Test server 测试服务器
     private static final String SERVER_BASE_TEST = "http://tapi.selftravel.com.cn/api";
-    // Production server
+    // Production server 正式服务器
     private static final String SERVER_BASE_PRODUCT = "http://api.selftravel.com.cn/api";
 
     public static final String KEY_DEBUG = "key_debug";
@@ -38,6 +38,7 @@ public class ServerAPI {
         return Const.DEBUG ? mServerBase : SERVER_BASE_PRODUCT;
     }
 
+    //切换服务器
     public static void switchServer(boolean debug) {
         mServerBase = debug ? SERVER_BASE_TEST : SERVER_BASE_PRODUCT;
         Bucket.switchServer(debug);

@@ -12,7 +12,7 @@ import com.cmcc.hyapps.andyou.utils.Log;
 
 /**
  * Tab menus at bottom in index.
- * 
+ * 自定义－底部导航页
  * @author Kuloud
  */
 public class BottomTab extends LinearLayout {
@@ -20,30 +20,20 @@ public class BottomTab extends LinearLayout {
     private OnTabSelected mOnTabSelected;
 
     /**
-     * @param context
-     * @param attrs
-     * @param defStyle
+     * 重写三个构造
      */
     public BottomTab(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
-    /**
-     * @param context
-     * @param attrs
-     */
     public BottomTab(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    /**
-     * @param context
-     */
     public BottomTab(Context context) {
         super(context);
     }
 
-    //显示效果的实现方法
+    //显示效果的实现方法 －重复点击return，先设置前一个到false 再设置点击的true
     public void selectTab(int index) {
         if (index == mCurrentTabIndex) {
             return;
@@ -62,6 +52,7 @@ public class BottomTab extends LinearLayout {
         Log.e("KKKK");
         for (int i = 0; i < getChildCount(); i++) {
             final int index = i;
+            //设置点击监听
             getChildAt(index).setOnClickListener(new OnClickListener() {
 
                 @Override

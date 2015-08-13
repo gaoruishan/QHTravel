@@ -20,7 +20,7 @@ public class UIStartUpHelper {
 
     private static UIStartUpHelper mInstance = null;
 
-    private static Handler mHandler = new Handler(Looper.getMainLooper()) {
+    public static Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -37,19 +37,23 @@ public class UIStartUpHelper {
         return mInstance;
     }
 
+    /**
+     * 执行主线程和子线程任务
+     */
     public static void executeOnSplashScreen() {
         if (sSplashScreenTasksExecuted) {
             return;
         }
         sSplashScreenTasksExecuted = true;
 
-        final UIStartUpHelper instance = UIStartUpHelper.getInstance();
-        instance.executeSplashScreenMainThreadTasks();
-        instance.executeSplashScreenAsyncTasks();
+        mInstance = UIStartUpHelper.getInstance();
+        mInstance.executeSplashScreenMainThreadTasks();
+        mInstance.executeSplashScreenAsyncTasks();
     }
 
     /**
      * Handle main thread tasks
+     * 处理主线任务
      */
     private void executeSplashScreenMainThreadTasks() {
         // TODO
@@ -57,6 +61,7 @@ public class UIStartUpHelper {
 
     /**
      * Handle async tasks
+     * 处理异步任务
      */
     private void executeSplashScreenAsyncTasks() {
 
@@ -64,10 +69,17 @@ public class UIStartUpHelper {
             @Override
             public void run() {
                 // TODO
-            };
+            }
         }.start();
     }
 
+    /**
+     * 空闲线程IdleHandler：
+     * 向消息队列中添加新的MessageQueue.IdleHandler。
+     * 当调用IdleHandler.queueIdle()返回false时，自动的从消息队列中移除。
+     * 或者调用removeIdleHandler(MessageQueue.IdleHandler)
+     * @param r
+     */
     public final static void executeWhenIdle(final Runnable r) {
         MessageQueue mq = Looper.myQueue();
         mq.addIdleHandler(new IdleHandler() {

@@ -22,15 +22,13 @@ import java.util.List;
 
 /**
  * Guide page for new version/features.
- * 
+ * 引导页 － viewpager 放置四张图片
  * @author kuloud
  */
 public class IntroActivity extends BaseActivity {
 
     private ViewPager mPager;
-//    private LinearLayout mDotsLayout;
     private View mBtn;
-
     private List<View> viewList;
 
 
@@ -40,22 +38,14 @@ public class IntroActivity extends BaseActivity {
         setContentView(R.layout.activity_guide);
 
         mPager = (ViewPager) findViewById(R.id.guide_viewpager);
-//        mDotsLayout = (LinearLayout) findViewById(R.id.guide_dots);
         mBtn = findViewById(R.id.guide_btn);
-
+        //初始化四个view页面
         initPager();
         mPager.setAdapter(new ViewPagerAdapter(viewList));
         mPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int index) {
-//                for (int i = 0; i < mDotsLayout.getChildCount(); i++) {
-//                    if (i == index) {
-//                        mDotsLayout.getChildAt(i).setSelected(true);
-//                    } else {
-//                        mDotsLayout.getChildAt(i).setSelected(false);
-//                    }
-//                }
                 if (index == viewList.size() - 1) {
                     mBtn.setVisibility(View.VISIBLE);
                 } else {
@@ -86,45 +76,25 @@ public class IntroActivity extends BaseActivity {
         int[] images = new int[] {
                 R.mipmap.guide1, R.mipmap.guide2, R.mipmap.guide3, R.mipmap.guide4
         };
-//        int[] texts0 = new int[] {
-//                R.string.guide_text0_0, R.string.guide_text0_1, R.string.guide_text0_2
-//        };
-//        int[] texts1 = new int[] {
-//                R.string.guide_text1_0, R.string.guide_text1_1, R.string.guide_text1_2
-//        };
         for (int i = 0; i < images.length; i++) {
-            viewList.add(initView(images[i]/*, texts0[i], texts1[i]*/));
+            //循环 将四个view添加到list
+            viewList.add(initView(images[i]));
         }
-//        initDots(images.length);
     }
 
-//    private void initDots(int count) {
-//        for (int j = 0; j < count; j++) {
-//            mDotsLayout.addView(initDot());
-//        }
-//        mDotsLayout.getChildAt(0).setSelected(true);
-//    }
 
     @SuppressLint("InflateParams")
-    private View initDot() {
-        return LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_dot, null);
-    }
-
-    @SuppressLint("InflateParams")
-    private View initView(int res/*, int text0, int text1*/) {
-//        ImageView image = new ImageView(activity);
-//        image.setScaleType(ScaleType.FIT_XY);
-//        image.setImageResource(res);
+    private View initView(int res) {
+        //使用布局填充器 获得view
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.item_guide, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.iguide_img);
-//        TextView textview0 = (TextView) view.findViewById(R.id.iguide_text0);
-//        TextView textview1 = (TextView) view.findViewById(R.id.iguide_text1);
         imageView.setImageResource(res);
-//        textview0.setText(text0);
-//        textview1.setText(text1);
         return view;
     }
 
+    /**
+     * viewpager 适配器
+     */
     private class ViewPagerAdapter extends PagerAdapter {
 
         private List<View> data;
@@ -155,12 +125,5 @@ public class IntroActivity extends BaseActivity {
             container.removeView(data.get(position));
         }
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        // Exit application if back pressed.
-        System.exit(0);
     }
 }

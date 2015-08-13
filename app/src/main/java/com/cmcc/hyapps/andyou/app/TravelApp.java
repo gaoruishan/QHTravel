@@ -86,8 +86,11 @@ public class TravelApp extends Application {
         });
     }
 
+    /**
+     * 尝试更新用户信息
+     */
     private void tryUpdateUserInfoFromNet() {
-        // if user info exist local, try to update once.
+        // if user info exist local, try to update once. 用户存在，进行异步更新
         if (AppUtils.getUser(getBaseContext()) != null) {
             String url = ServerAPI.BASE_URL + "users/current/";
             RequestManager.getInstance().sendGsonRequest(url, User.class,
@@ -96,7 +99,7 @@ public class TravelApp extends Application {
                         @Override
                         public void onResponse(User user) {
                             Log.e("onResponse, User: " + user);
-                            // Delete previous user avatar if need.
+                            // Delete previous user avatar if need. 删除旧头像
                             User oldUserInfo = AppUtils.getUser(getBaseContext());
 
                             if (oldUserInfo != null&&null!=user.user_info.avatar_url
@@ -114,7 +117,7 @@ public class TravelApp extends Application {
                     }, TAG);
         }
     }
-
+    //设置当前位置
     public void setCurrentLocation(Location location) {
         mCurrentLocation = location;
 

@@ -8,7 +8,7 @@ import android.os.Environment;
 import android.os.RemoteException;
 import android.os.StatFs;
 
-import com.cmcc.hyapps.andyou.utils.ToastUtils;
+import com.cmcc.hyapps.andyou.util.ToastUtils;
 
 import java.io.File;
 import java.lang.reflect.Method;

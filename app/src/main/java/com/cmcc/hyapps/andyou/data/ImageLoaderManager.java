@@ -4,8 +4,7 @@ package com.cmcc.hyapps.andyou.data;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.cmcc.hyapps.andyou.R;
-import com.cmcc.hyapps.andyou.utils.FileUtils;
+import com.cmcc.hyapps.andyou.util.FileUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

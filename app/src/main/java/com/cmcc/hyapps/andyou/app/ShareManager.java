@@ -10,7 +10,7 @@ import android.text.TextUtils;
 
 import com.cmcc.hyapps.andyou.R;
 import com.cmcc.hyapps.andyou.model.Location;
-import com.cmcc.hyapps.andyou.utils.PreferencesUtils;
+import com.cmcc.hyapps.andyou.util.PreferencesUtils;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;

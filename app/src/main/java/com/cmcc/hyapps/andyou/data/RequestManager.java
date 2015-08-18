@@ -23,9 +23,9 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.cmcc.hyapps.andyou.R;
 import com.cmcc.hyapps.andyou.model.Token;
-import com.cmcc.hyapps.andyou.utils.AppUtils;
-import com.cmcc.hyapps.andyou.utils.ConstUtils;
-import com.cmcc.hyapps.andyou.utils.NetUtils;
+import com.cmcc.hyapps.andyou.util.AppUtils;
+import com.cmcc.hyapps.andyou.util.ConstUtils;
+import com.cmcc.hyapps.andyou.util.NetUtils;
 
 import java.util.HashMap;
 import java.util.Map;

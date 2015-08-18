@@ -21,9 +21,8 @@ import com.android.volley.VolleyError;
 import com.cmcc.hyapps.andyou.app.ServerAPI;
 import com.cmcc.hyapps.andyou.data.RequestManager;
 import com.cmcc.hyapps.andyou.model.Apk;
-import com.cmcc.hyapps.andyou.utils.AppUtils;
-import com.cmcc.hyapps.andyou.utils.PreferencesUtils;
-import com.cmcc.hyapps.andyou.utils.ToastUtils;
+import com.cmcc.hyapps.andyou.util.AppUtils;
+import com.cmcc.hyapps.andyou.util.PreferencesUtils;
 
 import java.io.File;
 

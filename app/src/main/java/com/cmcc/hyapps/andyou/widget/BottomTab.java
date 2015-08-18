@@ -8,7 +8,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.cmcc.hyapps.andyou.utils.Log;
+import com.cmcc.hyapps.andyou.util.Log;
 
 /**
  * Tab menus at bottom in index.

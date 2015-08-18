@@ -2,7 +2,7 @@ package com.cmcc.hyapps.andyou.model;
 
 import android.content.Context;
 
-import com.cmcc.hyapps.andyou.utils.PreferencesUtils;
+import com.cmcc.hyapps.andyou.util.PreferencesUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

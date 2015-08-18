@@ -5,6 +5,29 @@
         <item name="android:textColorPrimaryInverse">@android:color/primary_text_light</item>
     </style>
 
+    <!-- Style for action bar. -->
+    <style name="action_bar">
+        <item name="android:background">@color/title_bg</item>
+    </style>
+
+    <style name="action_bar_new">
+        <item name="android:background">@color/base_bg</item>
+    </style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparency</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <!-- Style for action bar left/right item -->
+    <style name="action_tab_lr">
+        <item name="android:gravity">center</item>
+        <item name="android:padding">13dp</item>
+    </style>
+
     <!-- Style for bottom tabs -->
     <style name="bottom_tab">
         <item name="android:gravity">center</item>
@@ -16,6 +39,47 @@
     <style name="text_title_white">
         <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--Style for text_summary    activity_city_chooser.xml-->
+    <style name="text_summary">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/base_text_summary</item>
+    </style>
+    <!--Style for text_title -->
+    <style name="text_title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/base_text_title</item>
+    </style>
+
+    <style name="Theme.UMDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <!--home_tab-->
+    <style name="home_tab" parent="@style/scenery_detail_summary_text">
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="scenery_detail_summary_text">
+        <item name="android:textColor">@color/base_theme_normal</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--text_banner-->
+    <style name="text_banner_title">
+        <item name="android:textSize">19sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_gravity">bottom|left</item>
+        <item name="android:layout_margin">13dp</item>
+    </style>
+
+    <style name="text_weather">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
     </style>
 
 </resources>

@@ -13,8 +13,8 @@ import com.cmcc.hyapps.andyou.adapter.AMapLocationListenerAdapter;
 import com.cmcc.hyapps.andyou.app.Const;
 import com.cmcc.hyapps.andyou.app.TravelApp;
 import com.cmcc.hyapps.andyou.model.Location;
-import com.cmcc.hyapps.andyou.utils.ConstUtils;
-import com.cmcc.hyapps.andyou.utils.Log;
+import com.cmcc.hyapps.andyou.util.ConstUtils;
+import com.cmcc.hyapps.andyou.util.Log;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -27,15 +27,19 @@ public class LocationService extends Service {
     private AMapLocationListenerAdapter mLocationCb;
     private final List<LocationListener> mListeners = new CopyOnWriteArrayList<LocationListener>();
 
-    //更新位置信息，发送广播
+    /**
+     * 更新位置信息，发送广播
+     */
     private void updateLocation(Location location) {
+        Log.e("LocationService=","updateLocation");
+        // 设置当前地理位置－TravelApp保存为成员变量
         mApp.setCurrentLocation(location);
         Intent intent = new Intent(Const.ACTION_LOCATION_UPDATE);
         intent.putExtra(Const.EXTRA_COORDINATES, location);
         mContext.sendBroadcast(intent);
-        notifyListners(location);
+        notifyListners(location); //唤醒监听
     }
-
+    //接口回调
     public interface LocationListener {
         void onReceivedLocation(Location loc);
         void onLocationError();
@@ -45,18 +49,20 @@ public class LocationService extends Service {
     public void onCreate() {
         mApp = (TravelApp) getApplication();
         mContext = getApplicationContext();
-        Log.d("LocationService onCreate");
+        Log.e("LocationService onCreate");
         super.onCreate();
         //监听者，定义位置发生变化后执行的动作
         mLocationCb = new AMapLocationListenerAdapter() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
+                Log.e("aMapLocation=",aMapLocation);
                 if (aMapLocation == null) return;
                 Location loc = new Location(aMapLocation.getLatitude(),aMapLocation.getLongitude());
                 loc.city = aMapLocation.getCity();
                 loc.accuracy = aMapLocation.getAccuracy();
                 loc.speed = aMapLocation.getSpeed();
                 loc.bearing = aMapLocation.getBearing();
+                //
                 updateLocation(loc);
             }
         };

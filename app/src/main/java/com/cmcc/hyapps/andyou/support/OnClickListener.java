@@ -6,7 +6,7 @@ package com.cmcc.hyapps.andyou.support;
 
 import android.view.View;
 
-import com.cmcc.hyapps.andyou.utils.ExcessiveClickBlocker;
+import com.cmcc.hyapps.andyou.util.ExcessiveClickBlocker;
 
 
 /**

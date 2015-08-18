@@ -13,19 +13,20 @@ import com.cmcc.hyapps.andyou.app.Const;
 import com.cmcc.hyapps.andyou.app.MobConst;
 import com.cmcc.hyapps.andyou.fragment.BlankFragment;
 import com.cmcc.hyapps.andyou.fragment.BlankFragment1;
+import com.cmcc.hyapps.andyou.fragment.HomeFragment;
 import com.cmcc.hyapps.andyou.model.Location;
 import com.cmcc.hyapps.andyou.service.LocationService;
-import com.cmcc.hyapps.andyou.utils.AppUtils;
+import com.cmcc.hyapps.andyou.util.AppUtils;
 import com.cmcc.hyapps.andyou.update.CheckUpdateUtil;
-import com.cmcc.hyapps.andyou.utils.ExcessiveClickBlocker;
-import com.cmcc.hyapps.andyou.utils.LocationUtil;
-import com.cmcc.hyapps.andyou.utils.Log;
-import com.cmcc.hyapps.andyou.utils.ToastUtils;
+import com.cmcc.hyapps.andyou.util.ExcessiveClickBlocker;
+import com.cmcc.hyapps.andyou.util.LocationUtil;
+import com.cmcc.hyapps.andyou.util.Log;
+import com.cmcc.hyapps.andyou.util.ToastUtils;
 import com.cmcc.hyapps.andyou.widget.BottomTab;
 import com.cmcc.hyapps.andyou.widget.BottomTab.OnTabSelected;
 import com.umeng.analytics.MobclickAgent;
 
-public class IndexActivity extends BaseActivity implements OnClickListener {
+public class IndexActivity extends BaseActivity implements OnClickListener ,LocationService.LocationListener {
     /**
      * Position of tab.
      */
@@ -52,7 +53,7 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-        LocationUtil.getInstance(this);
+//        LocationUtil.getInstance(this);
         //检查版本更新
         try {
             CheckUpdateUtil.getInstance(this).getUpdataInfo(false);
@@ -71,9 +72,8 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
                     //首页
                     case POS_SCENIC:
                         if (mScenicFragment == null) {
-                            mScenicFragment=new BlankFragment();
 //                            mScenicFragment = new FreshHomeFragment();
-//                            mScenicFragment = new HomeFragment();
+                            mScenicFragment = new HomeFragment();
                         }
                         fragment = mScenicFragment;
                         //友盟－统计发生次数
@@ -110,8 +110,8 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
                     default:
                         Log.e("unknown position of SectionsPagerAdapter: " + index);
                         if (mScenicFragment == null) {
-                            mScenicFragment=new BlankFragment();
-//                            mScenicFragment = new HomeFragment /*ScenicDetailsFragment*/();
+//                            mScenicFragment=new BlankFragment();
+                            mScenicFragment = new HomeFragment();
                         }
                         fragment = mScenicFragment;
                         break;
@@ -163,16 +163,13 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
             ToastUtils.show(activity, R.string.press_back_to_exit);
         } else {
             super.onBackPressed();
-            cleanUp();
+            // stopService(new Intent(this, PlaybackService.class));
+            stopService(new Intent(this, LocationService.class));
+            //杀死进程前 保存统计信息
+            MobclickAgent.onKillProcess(this);
             // 退出应用
             AppManager.getAppManager().AppExit(this);
-//            System.exit(0);
         }
-    }
-
-    private void cleanUp() {
-       // stopService(new Intent(this, PlaybackService.class));
-        stopService(new Intent(this, LocationService.class));
     }
 
     @Override
@@ -183,8 +180,8 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.scenic_select_location: {
                 //定位城市
-//                Intent intent = new Intent(this, CityChooseActivity.class);
-//                startActivityForResult(intent, REQ_SELECT_LOCATION);
+                Intent intent = new Intent(this, CityChooseActivity.class);
+                startActivityForResult(intent, REQ_SELECT_LOCATION);
                 break;
             }
 
@@ -208,6 +205,7 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
                 startService(intent);
                 Log.d("Mannally set city to %s", location);
             } else {
+                showLocationSelector();
                 Log.e("Invalid location %s", location);
             }
         } else if (mCurrentFragment != null) {
@@ -221,5 +219,15 @@ public class IndexActivity extends BaseActivity implements OnClickListener {
         super.onDestroy();
         //取消经纬度监听
         LocationUtil.getInstance(AppUtils.getContext()).destroyAMapLocationListener();
+    }
+
+    @Override
+    public void onReceivedLocation(Location loc) {
+        ToastUtils.show(this,"==city:"+loc.city);
+    }
+
+    @Override
+    public void onLocationError() {
+        ToastUtils.show(this,"==city:error");
     }
 }

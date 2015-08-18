@@ -4,6 +4,7 @@
     <item type="id" name="gridview" />
     <item type="id" name="webview" />
     <item type="id" name="scrollview" />
+    <item type="id" name="recyclerviews" />
 
     <item name="twowayview_item_click_support" type="id"/>
     <item name="twowayview_item_selection_support" type="id"/>

@@ -13,9 +13,9 @@ import com.cmcc.hyapps.andyou.app.ServerAPI.Upload.Bucket;
 import com.cmcc.hyapps.andyou.data.RequestManager;
 import com.cmcc.hyapps.andyou.model.Location;
 import com.cmcc.hyapps.andyou.model.UploadToken;
-import com.cmcc.hyapps.andyou.utils.AppUtils;
-import com.cmcc.hyapps.andyou.utils.Log;
-import com.cmcc.hyapps.andyou.utils.PreferencesUtils;
+import com.cmcc.hyapps.andyou.util.AppUtils;
+import com.cmcc.hyapps.andyou.util.Log;
+import com.cmcc.hyapps.andyou.util.PreferencesUtils;
 
 import org.json.JSONObject;
 

@@ -66,5 +66,72 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- END Bottom tab -->
 
+    <!-- User home -->
+    <string name="home_tab_loacl_special">游记攻略</string>
+    <string name="home_tab_food">路线</string>
+    <string name="home_tab_live">景点直播</string>
+    <string name="home_tab_hotel">景点导航</string>
+    <string name="home_recommand">特色推荐</string>
+    <string name="home_tab_guide">私人导游</string>
+    <string name="home_my_near">我的附近</string>
+    <string name="home_item_intro">故宫是神圣向往之地，风景很美</string>
+    <string name="home_item_name">故宫博物院</string>
+    <string name="home_nearby_restaurant">路线</string>
+    <string name="home_nearby_restaurant_detail">餐厅详情</string>
+    <string name="home_nearby_hotel_detail">酒店详情</string>
+    <string name="home_nearby_hotel">导航</string>
+    <string name="home_bed_name">大床</string>
+    <string name="home_bed_info">wifi 2米大床</string>
+    <string name="home_bed_price">￥%1$s</string>
+    <string name="home_bed_price_tip">起</string>
+    <string name="home_restaurant_address">车公庄2号楼</string>
+    <string name="home_restaurant_name">俏江南</string>
+
+    <string name="send_argument">发送</string>
+    <string name="rest_info">商户信息</string>
+    <string name="rest_special">特色推荐</string>
+    <string name="rooms_info">房间信息</string>
+    <string name="rest_special_foods">宫保鸡丁   牛柳</string>
+    <string name="rest_tel">订餐电话：%1$s</string>
+    <string name="hotel_tel">酒店电话：%1$s</string>
+    <string name="rest_address">地址：%1$s</string>
+    <string name="home_restaurant_distance">%1$dm</string>
+    <string name="home_restaurant_average_cost_tip">人均:</string>
+    <string name="home_restaurant_average_cost">￥%1$s</string>
+    <string name="home_restaurant_average_cost_tips">人均:</string>
+    <string name="home_item_distance">%1$dkm</string>
+    <string name="home_select_city">选择城市</string>
+    <string name="rest_detail_title">餐厅详情</string>
+    <string name="special_detail_title">特产详情</string>
+    <string name="special_title">攻略</string>
+    <string name="special_intro_title">特产介绍</string>
+    <string name="home_defaulst_city">北京</string>
+    <string name="map_dialog_secnic_name">颐和园</string>
+    <string name="map_dialog_secnic_wait">敬请期待</string>
+    <string name="map_dialog_secnic_distance">%1$d米</string>
+    <string name="home_defaulst_cityen">beijing</string>
+    <string name="map_auto_guide_fail">亲，您当前不在景区内，无法使用边走边听！</string>
+    <string name="map_secnic_no_audio">亲，当前景点没有音频,可以看文字介绍！</string>
+
+    <string name="msg_emoji_not_support">暂不支持Emoji表情</string>
+
+
+    <!-- BEGIN Listen -->
+    <string name="duration_format_short" translatable="false">%2$d:%5$02d</string>
+    <string name="duration_format_long" translatable="false">%1$d:%3$02d:%5$02d</string>
+    <string name="auto_guide">边走边听</string>
+    <string name="allusion">历史典故</string>
+    <string name="playback_error">播放错误</string>
+    <string name="auto_guide_on">自动导游打开</string>
+    <string name="auto_guide_off">自动导游关闭</string>
+    <string name="audio_invalid">音频地址无效</string>
+    <string name="audio_title_intro" translatable="false">简介</string>
+    <string name="auto_guide_hint">正在收听%1$s景点简介</string>
+    <string name="auto_guide_prompt">需要退出边走边听才能收听</string>
+
+    <string name="map_listen_summary_title">简介</string>
+    <string name="map_listen_story_title">典故</string>
+
+    <!-- END Listen -->
 
 </resources>

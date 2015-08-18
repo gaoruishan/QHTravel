@@ -18,7 +18,6 @@ import com.umeng.analytics.MobclickAgent;
 public abstract class BaseActivity extends FragmentActivity {
     protected Activity activity;
     protected String requestTag;
-    public final int REQUEST_CODE_LOGIN_NEW_COMMENT = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,6 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         // 用来保证获取正确的新增用户、活跃用户、启动次数、使用时长等基本数据
         MobclickAgent.onResume(activity);
     }

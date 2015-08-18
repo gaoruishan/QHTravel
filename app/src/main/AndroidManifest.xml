@@ -50,6 +50,7 @@
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.DELETE_PACKAGES" />
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> 
     <application
         android:name=".app.TravelApp"
         android:allowBackup="true"
@@ -75,6 +76,99 @@
             android:name=".activity.IndexActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".activity.CityChooseActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <!-- Locationserver-->
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.cmcc.hyapps.andyou.action.UPDATE_LOCATION" />
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="41542f1b19d51f003edd2c9c640aa864" />
+        <!-- 友盟 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5588b37067e58e8362005d6c" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="72b08d7ce7f80ba30f7bb012df17e1db" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="UMENG_CHANNEL_VALUE" >
+        </meta-data>
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name="com.umeng.fb.ConversationActivity" />
+
+        <!--<receiver-->
+            <!--android:name=".download.DownloadReceiver"-->
+            <!--android:exported="false" >-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MEDIA_MOUNTED" />-->
+
+                <!--<data android:scheme="file" />-->
+            <!--</intent-filter>-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.cmcc.hyapps.andyou.intent.action.DOWNLOAD_INFORMATION" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:exported="false" >
+        </receiver>
+        <receiver android:name="com.umeng.message.RegistrationReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.umeng.message.UmengBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.cmcc.hyapps.andyou.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RE_ELECTION_V2" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.umeng.message.BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.umeng.message.UmengService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushService_v1" />
+
     </application>
 
 </manifest>

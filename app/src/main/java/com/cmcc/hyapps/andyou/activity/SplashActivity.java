@@ -4,7 +4,6 @@ package com.cmcc.hyapps.andyou.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -12,19 +11,10 @@ import com.android.volley.VolleyError;
 import com.cmcc.hyapps.andyou.R;
 import com.cmcc.hyapps.andyou.app.ServerAPI;
 import com.cmcc.hyapps.andyou.data.RequestManager;
-import com.cmcc.hyapps.andyou.helper.UIStartUpHelper;
 import com.cmcc.hyapps.andyou.model.QHActiviteResponse;
 import com.cmcc.hyapps.andyou.model.Token;
-import com.cmcc.hyapps.andyou.model.Splash;
-import com.cmcc.hyapps.andyou.service.LocationService;
-import com.cmcc.hyapps.andyou.utils.AppUtils;
-import com.cmcc.hyapps.andyou.utils.PreferencesUtils;
+import com.cmcc.hyapps.andyou.util.AppUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 /**
  * Splash page.
@@ -47,8 +37,8 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
 
         // 开启位置服务 广播更新信息
-        Intent intent = new Intent(this, LocationService.class);
-        startService(intent);
+//        Intent intent = new Intent(this, LocationService.class);
+//        startService(intent);
         //验证Token
         autheToken();
 

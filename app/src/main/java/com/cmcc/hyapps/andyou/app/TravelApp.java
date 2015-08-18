@@ -13,10 +13,10 @@ import com.cmcc.hyapps.andyou.helper.UIStartUpHelper;
 import com.cmcc.hyapps.andyou.model.Location;
 import com.cmcc.hyapps.andyou.model.User;
 import com.cmcc.hyapps.andyou.service.LocationService;
-import com.cmcc.hyapps.andyou.utils.AppUtils;
-import com.cmcc.hyapps.andyou.utils.LocationUtil;
-import com.cmcc.hyapps.andyou.utils.Log;
-import com.cmcc.hyapps.andyou.utils.PreferencesUtils;
+import com.cmcc.hyapps.andyou.util.AppUtils;
+import com.cmcc.hyapps.andyou.util.LocationUtil;
+import com.cmcc.hyapps.andyou.util.Log;
+import com.cmcc.hyapps.andyou.util.PreferencesUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.push.FeedbackPush;
 
@@ -117,6 +117,14 @@ public class TravelApp extends Application {
                     }, TAG);
         }
     }
+
+    public Location getCurrentLocation() {
+        if (mCurrentLocation!=null){
+            return mCurrentLocation;
+        }
+        return null;
+    }
+
     //设置当前位置
     public void setCurrentLocation(Location location) {
         mCurrentLocation = location;

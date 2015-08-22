@@ -26,6 +26,8 @@ import com.umeng.fb.push.FeedbackPush;
  */
 public class TravelApp extends Application {
     public static final String TAG = "Travel";
+    public static boolean DEBUG_TEST=true;
+    public static boolean D=true;
     public static TravelApp instance;
     //记录当前所在位置
     public Location mCurrentLocation;
@@ -60,7 +62,7 @@ public class TravelApp extends Application {
         LocationUtil.getInstance(mContext);
 
         //接口 切换开关
-        ServerAPI.switchServer(PreferencesUtils.getBoolean(this, ServerAPI.KEY_DEBUG));
+        ServerAPI.switchServer(false);
 
         //volley RequestQueue初始化
         RequestManager.getInstance().init(this);
@@ -92,7 +94,7 @@ public class TravelApp extends Application {
     private void tryUpdateUserInfoFromNet() {
         // if user info exist local, try to update once. 用户存在，进行异步更新
         if (AppUtils.getUser(getBaseContext()) != null) {
-            String url = ServerAPI.BASE_URL + "users/current/";
+            String url = ServerAPI.getServerBase() + "users/current/";
             RequestManager.getInstance().sendGsonRequest(url, User.class,
                     new Response.Listener<User>() {
 

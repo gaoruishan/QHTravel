@@ -14,6 +14,9 @@ import com.cmcc.hyapps.andyou.service.LocationService;
 import com.cmcc.hyapps.andyou.util.LocationUtil;
 import com.cmcc.hyapps.andyou.util.Log;
 
+/**
+ * 位置检测者
+ */
 public class LocationDetector {
     private static final int MSG_ON_LOCATION_REQUIRED = 1;
     private static final int MSG_LOCATION_TIMEOUT = 2;
@@ -25,7 +28,7 @@ public class LocationDetector {
     private LocationListener mListener;
     private Handler mHandler;
     private boolean mOneshot;
-
+    //接受广播－LocationServer
     private BroadcastReceiver mLocationReceiver = new BroadcastReceiver() {
 
         @Override
@@ -56,6 +59,9 @@ public class LocationDetector {
                 switch (msg.what) {
                     case MSG_ON_LOCATION_REQUIRED: {
                         Location location = (Location) msg.obj;
+                        /**
+                         * 接口回调
+                         */
                         mListener.onReceivedLocation(location);
                         break;
                     }
@@ -73,6 +79,12 @@ public class LocationDetector {
         };
     }
 
+    /**
+     * 检测位置
+     * @param listener
+     * @param useCache
+     * @param oneshot
+     */
     public void detectLocation(LocationListener listener, boolean useCache, boolean oneshot) {
         detectLocation(listener, useCache, oneshot, 1000);
     }

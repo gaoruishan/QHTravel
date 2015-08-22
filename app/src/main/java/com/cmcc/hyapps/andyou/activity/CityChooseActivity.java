@@ -174,6 +174,7 @@ public class CityChooseActivity extends BaseActivity {
         Intent intent = new Intent();
         city.location.city = city.name;
         intent.putExtra(Const.EXTRA_COORDINATES, city.location);
+        // to IndexActivity  onActivityResult method
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -215,7 +216,7 @@ public class CityChooseActivity extends BaseActivity {
     }
 
     /**
-     *
+     * 对输入框 数据过滤
      * @param filterStr
      */
     private void filterData(String filterStr) {

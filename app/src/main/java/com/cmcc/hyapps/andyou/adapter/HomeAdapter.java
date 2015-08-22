@@ -26,10 +26,8 @@ import java.util.List;
 
 import static android.support.v4.view.ViewPager.OnPageChangeListener;
 
-//HomeBanner.HomeBannerLists
-//HomeBanner.HomeBannerLists
 public class HomeAdapter extends BaseHeaderAdapter<HomeBanner.HomeBannerLists,Recommand> {
-    private final String TAG = "FreshHomeAdapter";
+    private final String TAG = "HomeAdapter";
     private Activity mActivity;
     private static final int BANNER_SCROLL_INTERVAL = 2500;
     private BannerPagerAdapter.IActionCallback<HomeBanner> mActionCallback;
@@ -156,10 +154,6 @@ public class HomeAdapter extends BaseHeaderAdapter<HomeBanner.HomeBannerLists,Re
 
 
         if (!TextUtils.isEmpty(recommand.image_url)) {
-//            commentHolder.netImage.setImageUrl(recommand.image_url,
-//                    RequestManager.getInstance().getImageLoader());
-//            commentHolder.netImage.setErrorImageResId(R.drawable.recommand_bg);
-//            commentHolder.netImage.setDefaultImageResId(R.drawable.recommand_bg);
 
             ImageUtil.DisplayImage(recommand.image_url, commentHolder.netImage);
         }
@@ -167,7 +161,6 @@ public class HomeAdapter extends BaseHeaderAdapter<HomeBanner.HomeBannerLists,Re
         if (!TextUtils.isEmpty(recommand.content)){
             commentHolder.item_intro.setText(recommand.content);
         }
- //       commentHolder.item_intro.setText(recommand.intro_text.trim());
 //        LatLng start = new LatLng(recommand.latitude, recommand.longitude);
 //        LatLng end = new LatLng(ConstTools.myCurrentLoacation.latitude, ConstTools.myCurrentLoacation.longitude);
 //

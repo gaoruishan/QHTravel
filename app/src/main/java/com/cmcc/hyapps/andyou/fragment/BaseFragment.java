@@ -5,10 +5,13 @@
 package com.cmcc.hyapps.andyou.fragment;
 
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.cmcc.hyapps.andyou.app.Const;
+import com.cmcc.hyapps.andyou.util.Log;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -18,20 +21,16 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class BaseFragment extends Fragment {
     protected static final boolean DEBUG = Const.DEBUG;
-    String simpleName;
+    protected String simpleName;
     protected String mRequestTag = BaseFragment.class.getName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         if (getArguments() != null && getArguments().containsKey(Const.ARGS_REQUEST_TAG)) {
             mRequestTag = getArguments().getString(Const.ARGS_REQUEST_TAG);
         }
-
         simpleName = this.getClass().getSimpleName();
-//        else if (DEBUG){
-//            throw new RuntimeException("A volley request tag must be provided");
-//        }
-
         super.onCreate(savedInstanceState);
     }
     /**
@@ -40,10 +39,12 @@ public class BaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(simpleName);
+        Log.e(simpleName, "onResume");
     }
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(simpleName);
+        Log.e(simpleName, "onPause");
     }
     public BaseFragment() {
     }

@@ -18,7 +18,7 @@ import com.cmcc.hyapps.andyou.R;
  * Use the {@link BlankFragment1#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BlankFragment1 extends Fragment {
+public class BlankFragment1 extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -80,6 +80,9 @@ public class BlankFragment1 extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+
+
     }
 
     /**
@@ -95,6 +98,9 @@ public class BlankFragment1 extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+
+
+
     }
 
 }

@@ -11,14 +11,17 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <TextView
             android:id="@+id/action_bar_left"
-            style="@style/action_tab_lr"
             android:layout_width="wrap_content"
+            android:padding="3dp"
+            android:gravity="center"
+            android:maxWidth="50dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
             android:layout_height="match_parent"
-            android:contentDescription="@string/content_description"
-            android:src="@drawable/ic_action_bar_back_selecter"
-            android:visibility="gone" />
+            android:text="北京"
+             />
 
         <LinearLayout
             android:layout_width="match_parent"

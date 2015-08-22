@@ -1,17 +1,11 @@
 
 package com.cmcc.hyapps.andyou.util;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Toast;
-
-import com.cmcc.hyapps.andyou.app.Const;
-import com.cmcc.hyapps.andyou.model.Scenic;
 
 import java.io.Closeable;
 import java.io.IOException;

@@ -28,7 +28,8 @@ public class UrlListLoader<T extends ResultList> implements DataLoader<T> {
     public UrlListLoader(String requestTag, Class<T> clazz) {
         mRequestTag = requestTag;
         mClazz = clazz;
-    } public UrlListLoader(String requestTag, Class<T> clazz, Paginator mPaginator) {
+    }
+    public UrlListLoader(String requestTag, Class<T> clazz, Paginator mPaginator) {
         mRequestTag = requestTag;
         mClazz = clazz;
         this.mPaginator = mPaginator;

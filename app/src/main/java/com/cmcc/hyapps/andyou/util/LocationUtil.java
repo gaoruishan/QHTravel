@@ -35,8 +35,9 @@ public class LocationUtil {
     private static LocationUtil mLocation = null;
 
     private LocationUtil(Context context) {
-        aMap = new AMap();
+        aMap = new AMap();//监听 状态改变
         mAMapLocationManager = LocationManagerProxy.getInstance(context);
+        //网络定位 每5s
         mAMapLocationManager.requestLocationData(LocationProviderProxy.AMapNetwork, 5000, 10, aMap);
 
     }
@@ -50,10 +51,6 @@ public class LocationUtil {
 
     /**
      * 某一地点 距当前位置的距离
-     *
-     * @param latitude
-     * @param longitude
-     * @return
      */
     public String getDistance(double latitude, double longitude) {
         LatLng start = new LatLng(latitude, longitude);
@@ -149,7 +146,7 @@ public class LocationUtil {
 
     private LocationUtil() {
     }
-
+    // 获取最后的位置
     public static com.cmcc.hyapps.andyou.model.Location getLastKnownLocation(Context context) {
         com.cmcc.hyapps.andyou.model.Location location = new com.cmcc.hyapps.andyou.model.Location(PreferencesUtils.getDouble(context, KEY_LATITUDE,
                 DEFAULT_LATITUDE),

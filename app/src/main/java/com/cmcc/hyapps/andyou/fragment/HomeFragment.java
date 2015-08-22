@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
@@ -33,19 +34,14 @@ import com.cmcc.hyapps.andyou.data.LocationDetector;
 import com.cmcc.hyapps.andyou.data.LocationDetector.LocationListener;
 import com.cmcc.hyapps.andyou.data.RequestManager;
 import com.cmcc.hyapps.andyou.data.UrlListLoader;
-import com.cmcc.hyapps.andyou.model.City;
-import com.cmcc.hyapps.andyou.model.Comment;
 import com.cmcc.hyapps.andyou.model.Location;
 import com.cmcc.hyapps.andyou.model.HomeBanner;
-import com.cmcc.hyapps.andyou.model.Scenic;
 import com.cmcc.hyapps.andyou.model.Recommand;
 import com.cmcc.hyapps.andyou.util.ConstUtils;
 import com.cmcc.hyapps.andyou.util.ExcessiveClickBlocker;
-import com.cmcc.hyapps.andyou.util.FormatUtils;
 import com.cmcc.hyapps.andyou.util.Log;
 import com.cmcc.hyapps.andyou.util.ScreenUtils;
 import com.cmcc.hyapps.andyou.util.ToastUtils;
-import com.cmcc.hyapps.andyou.widget.ActionBar;
 import com.cmcc.hyapps.andyou.widget.PullToRefreshRecyclerView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
@@ -59,22 +55,9 @@ import java.util.List;
 
 
 public class HomeFragment extends BaseFragment implements OnClickListener, DataLoaderCallback<Recommand.RecommandList> {
-    private final String TAG = "FreshHomeFragment";
-
-    private final int REQUEST_CODE_LOGIN_NEW_COMMENT = 1;
-    private final int REQUEST_CODE_LOGIN_VOTE = 2;
-    private final int REQUEST_CODE_LOGIN_COMMENT_DETAIL = 3;
-    private final int REQUEST_CODE_SEARCH = 4;
-    private final int REQUEST_CODE_COMMENT_DETAIL = 5;
-    private final int REQUEST_CODE_POST_COMMENT = 6;
-    private final int REQUEST_CODE_SEARCH_ET = 7;//
-    private static final int ACCELERATION_THRESOLD = 22;
-    private ActionBar mActionBar;
     private RecyclerView mRecyclerView;
     private HomeAdapter mAdapter;
     private int mId = -1;
-    private Location mLocation = new Location(39.908815, 116.397228);//我当前loc
-    private Location secnicLoc = new Location(39.908815, 116.397228);//当前景区loc
     private View mLoadingProgress;
     private View mReloadView;
     private PullToRefreshRecyclerView mPullToRefreshView;
@@ -82,62 +65,26 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
     private UrlListLoader<Recommand.RecommandList> recommandListUrlListLoader;
     private GsonRequest<HomeBanner.HomeBannerLists> mBannerRequest;
     private ViewGroup mRootView;
-    private Vibrator mVibrator;
-    private boolean mRandomLoad;
+    private TextView locationCity;
     //特色推荐
     private Recommand mRecommand;
+    //地理位置 检测者
     private LocationDetector mLocationDetector;
     private int HTTP_GET_PARAM_LIMIT = 10;
-    //    private City dectedCity;
     private boolean isLoading = false;
 
     private List<Recommand> recommands ;
-    private LocationListener mLocationListener = new LocationListener() {
 
-        @Override
-        public void onReceivedLocation(Location loc) {
-            Log.d("onReceivedLocation, location=%s", loc);
-            mLocation = loc;
-            secnicLoc = loc;
-            ConstUtils.myCurrentLoacation = new Location(loc.latitude, loc.longitude);
-            ConstUtils.myCurrentLoacation.city = loc.city;
-            ConstUtils.myCurrentLoacation.city_en = loc.city_en;
-            Log.e("-------", "onReceivedLocation--");
-        }
-
-        @Override
-        public void onLocationTimeout() {
-            Log.d("onLocationTimeout");
-            ((IndexActivity) getActivity()).showLocationSelector();
-            mLocation = null;
-            mLocation = new Location(39.908815, 116.397228);
-            secnicLoc = new Location(39.908815, 116.397228);
-            ConstUtils.myCurrentLoacation = new Location(39.908815, 116.397228);
-            ConstUtils.myCurrentLoacation.city = "北京";
-            ConstUtils.myCurrentLoacation.city_en = "beijing";
-            loadHomeBanner();
-        }
-
-        @Override
-        public void onLocationError() {
-            mLocation = null;
-            mLocation = new Location(39.908815, 116.397228);
-            secnicLoc = new Location(39.908815, 116.397228);
-            ConstUtils.myCurrentLoacation = new Location(39.908815, 116.397228);
-            ConstUtils.myCurrentLoacation.city = "北京";
-            ConstUtils.myCurrentLoacation.city_en = "beijing";
-            loadHomeBanner();
-            Log.d("onLocationError");
-            // TODO
-        }
-    };
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mId = getArguments().getInt(Const.EXTRA_ID);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocationDetector = new LocationDetector(getActivity().getApplicationContext());
-        mVibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-      //  ShareManager.getInstance().onStart(getActivity());
     }
 
     @Override
@@ -149,30 +96,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
-
-    @Override
-    public void onPause() {
-        MobclickAgent.onPageEnd(TAG);
-        super.onPause();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mId = getArguments().getInt(Const.EXTRA_ID);
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
+        //当fragment隐藏时，该方法会调用传入参数为true
         Log.d("onHiddenChanged, hidden=%s", hidden);
-        // hookSensorListener(!hidden);
         super.onHiddenChanged(hidden);
     }
 
+    /**
+     * 重新加载 置空和取消网络请求
+     */
     private void reload() {
         mPullToRefreshView.setMode(Mode.DISABLED);
         mRecyclerView.setVisibility(View.GONE);
@@ -182,21 +114,52 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
         mAdapter.setDataItems(null);
         RequestManager.getInstance().getRequestQueue().cancelAll(mRequestTag);
         loadHomeBanner();
-        //定位观察者 －－
+        //定位检测者  LocationDetector
         mLocationDetector.detectLocation(mLocationListener, true, true);
+    }
+    //定位检测者 接口回调
+    private LocationListener mLocationListener = new LocationListener() {
+
+        @Override
+        public void onReceivedLocation(Location loc) {
+            ConstUtils.myCurrentLoacation = new Location(loc.latitude, loc.longitude);
+            ConstUtils.myCurrentLoacation.city = loc.city;
+            ConstUtils.myCurrentLoacation.city_en = loc.city_en;
+            //设置城市名
+            if (loc!=null&&loc.city!=null)
+            locationCity.setText(loc.city);
+            else
+            Log.e("-------", "onReceivedLocation--");
+        }
+
+        @Override
+        public void onLocationTimeout() {
+            //显示手动选择位置
+            ((IndexActivity) getActivity()).showLocationSelector();
+            setDefaultCity();
+            loadHomeBanner();
+        }
+
+        @Override
+        public void onLocationError() {
+            setDefaultCity();
+            loadHomeBanner();
+            Log.d("onLocationError");
+        }
+    };
+    /**
+     *   默认城市
+     */
+    private void setDefaultCity() {
+        ConstUtils.myCurrentLoacation = new Location(39.908815, 116.397228);
+        ConstUtils.myCurrentLoacation.city = "北京";
+        ConstUtils.myCurrentLoacation.city_en = "beijing";
     }
 
     private void initViews() {
         mRootView.findViewById(R.id.search_content).setOnClickListener(this);
+        locationCity= (TextView) mRootView.findViewById(R.id.action_bar_left);
         initListView();
-        initPullToRefresh();
-
-        mLoadingProgress = mRootView.findViewById(R.id.loading_progress);
-        mReloadView = mRootView.findViewById(R.id.reload_view);
-        mReloadView.setOnClickListener(this);
-    }
-
-    private void initPullToRefresh() {
         mPullToRefreshView = (PullToRefreshRecyclerView) mRootView.findViewById(R.id.pulltorefresh_twowayview);
         mPullToRefreshView.setOnRefreshListener(new OnRefreshListener<RecyclerView>() {
 
@@ -214,6 +177,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
                 }
             }
         });
+        mLoadingProgress = mRootView.findViewById(R.id.loading_progress);
+        mReloadView = mRootView.findViewById(R.id.reload_view);
+        mReloadView.setOnClickListener(this);
     }
 
     private void initListView() {
@@ -228,6 +194,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
                         if (data == null) {
                             return;
                         }
+                        //头部轮播图片点击
                         Intent intent = new Intent();
                         if (HomeBanner.SCENIC == data.stype) {//景区
                             MobclickAgent.onEvent(getActivity(), MobConst.ID_HOME_PPT1);
@@ -235,49 +202,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
                             int mId = Integer.parseInt(data.action);
                             //intent.putExtra(Const.QH_SECNIC, mScenic);
                             intent.putExtra(Const.QH_SECNIC_ID, mId);
-                            startActivity(intent);
                         } else if (HomeBanner.STRATEGY == data.stype) {//攻略
                             MobclickAgent.onEvent(getActivity(), MobConst.ID_HOME_PPT2);
 //                            intent = new Intent(HomeFragment.this.getActivity(), StrategyDetailActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putInt("id", Integer.parseInt(data.action));
                             intent.putExtra("guide", bundle);
-                        } else if (HomeBanner.VIDEO == data.stype) {//视频
-                            MobclickAgent.onEvent(getActivity(), MobConst.ID_INDEX_HOME_ACT);
-                            String url = ServerAPI.VideoList.buildItemDetailUrl(data.action);
-                            RequestManager.getInstance().sendGsonRequest(Method.GET, url,
-                                    Scenic.QHVideo.class, null,
-                                    new Response.Listener<Scenic.QHVideo>() {
-                                        @Override
-                                        public void onResponse(final Scenic.QHVideo item) {
-                                            // 0：使用白天视频 1：使用夜间视频
-                                            Intent intent = null;
-                                            switch (item.day_or_night) {
-                                                case 0:
-//                                                    intent = new Intent(getActivity(), VideoActivity.class);
-                                                    intent.putExtra("url", item.video_day);
-                                                    getActivity().startActivity(intent);
-                                                    break;
-                                                case 1:
-//                                                    intent = new Intent(getActivity(), NightLiveActivity.class);
-                                                    intent.putExtra("url", item.video_night);
-                                                    getActivity().startActivity(intent);
-                                                    break;
-                                                default:
-//                                                    intent = new Intent(getActivity(), VideoActivity.class);
-                                                    intent.putExtra("url", item.video_day);
-                                                    getActivity().startActivity(intent);
-                                                    break;
-                                            }
-
-                                        }
-                                    }, new Response.ErrorListener() {
-                                        @Override
-                                        public void onErrorResponse(VolleyError error) {
-                                            Toast.makeText(getActivity(), "获取视频资源失败，请检查网络", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }, false, mRequestTag);
-                            return;
                         } else if (HomeBanner.H5 == data.stype) {//h5
                             MobclickAgent.onEvent(getActivity(), MobConst.ID_INDEX_HOME_ACT);
 //                            intent.setClass(getActivity(), WebActivity.class);
@@ -295,8 +225,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
             @Override
             public void onItemClick(View view, int position) {
                 if (position == 0) {
+                    //点击头部标签
                     onHeaderClicked(view);
                 } else {
+                    //点击 item
                     onItemClicked(view);
                 }
             }
@@ -316,15 +248,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
             return;
         }
         switch (v.getId()) {
-            case R.id.action_bar_left:
-                getActivity().finish();
-                break;
-            case R.id.action_bar_left_text: {
-//                Intent intent = new Intent(getActivity(), /*VideoPlayer*//*MediaPlayerDemo_Video*/CityListActivity.class);
-//                startActivityForResult(intent, REQUEST_CODE_SEARCH);
-                MobclickAgent.onEvent(getActivity(), MobConst.ID_INDEX_SCENIC_SEARCH);
-                break;
-            }
             case R.id.reload_view: {
                 reload();
                 break;
@@ -340,51 +263,50 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
         }
     }
 
+    /**
+     * 加载首页头部数据
+     */
     private void loadHomeBanner() {
         isLoading = true;
-        final String url;
-        url = ServerAPI.BASE_URL + "banners/?format=json";
-        Log.e("Loading scenic details from %s", url);
-        mBannerRequest = RequestManager.getInstance().sendGsonRequest(Method.GET, url,
+        mBannerRequest = RequestManager.getInstance().sendGsonRequest(Method.GET, ServerAPI.BASE_URL + "banners/?format=json",
                 HomeBanner.HomeBannerLists.class, null,
                 new Response.Listener<HomeBanner.HomeBannerLists>() {
                     @Override
                     public void onResponse(HomeBanner.HomeBannerLists response) {
                         mPullToRefreshView.onRefreshComplete();
-                        Log.e("loadHomeBanner, ScenicDetails=%s,mAdapter.size=%d", response, mAdapter.getDataItems().size());
-                        mRandomLoad = false;
                         mAdapter.setDataItems(null);
                         mAdapter.setHeader(response);
-                        mAdapter.setMyLocation(mLocation);
-                   //     mRecyclerView.setVisibility(View.VISIBLE);
                         mAdapter.notifyDataSetChanged();
+                        //加载特色推荐
                         loadRecommand(DataLoader.MODE_REFRESH);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(error, "Error loading scenic details from %s", url);
                         showReloadView();
-                        mRandomLoad = false;
                         mPullToRefreshView.onRefreshComplete();
                     }
                 }, true, mRequestTag);
 
     }
 
+    /**
+     *  显示重新加载的视图
+     */
     private void showReloadView() {
         mRecyclerView.setVisibility(View.GONE);
         mLoadingProgress.setVisibility(View.GONE);
         mReloadView.setVisibility(View.VISIBLE);
     }
 
-
+    /**
+     * 加载特色推荐
+     * @param mode
+     */
     private void loadRecommand(int mode) {
         if (recommandListUrlListLoader == null) {
             recommandListUrlListLoader = new UrlListLoader<Recommand.RecommandList>(mRequestTag, Recommand.RecommandList.class);
-            String url;
-            url = ServerAPI.BASE_URL + "recommends";
-            recommandListUrlListLoader.setUrl(url);
+            recommandListUrlListLoader.setUrl(ServerAPI.BASE_URL + "recommends");
         }
         //加载更多
         recommandListUrlListLoader.loadMoreQHData(this, mode);
@@ -398,7 +320,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
         mPullToRefreshView.onRefreshComplete();
         mLoadingProgress.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
-        onListLoaded(list, mode);
+        mAdapter.setDataItems(list.results);
     }
 
     @Override
@@ -409,11 +331,10 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
         mReloadView.setVisibility(View.VISIBLE);
     }
 
-
-    private void onListLoaded(Recommand.RecommandList data, int mode) {
-            mAdapter.setDataItems(data.results);
-    }
-
+    /**
+     * adapter item点击  进入详情页
+     * @param v
+     */
     private void onItemClicked(View v) {
         if (ExcessiveClickBlocker.isExcessiveClick()) {
             return;
@@ -447,10 +368,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
         }
     }
 
+    /**
+     * adapter 头部点击
+     * @param v
+     */
     private void onHeaderClicked(View v) {
-        /*if (mScenicDetailsModel == null) {
-            return;
-        }*/
+
         switch (v.getId()) {
             case R.id.home_tab_live://直播
                 MobclickAgent.onEvent(getActivity(), MobConst.ID_HOME_HOME_BTN_BBQ);
@@ -483,72 +406,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, DataL
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_CODE_LOGIN_NEW_COMMENT:
-                    break;
-                case REQUEST_CODE_LOGIN_VOTE:
-                    break;
-                case REQUEST_CODE_LOGIN_COMMENT_DETAIL:
-                    break;
-                case REQUEST_CODE_SEARCH:
-                    City city = data.getParcelableExtra(Const.CITYMODE);
-                    if (null != city) {
-                        mId = 1;
-
-//                        if (null == mScenicDetailsModel) {
-//                            mLocation.latitude = city.location.latitude;
-//                            mLocation.longitude = city.location.longitude;
-//                            mScenicDetailsModel = new ScenicDetails();
-//                        } else {
-//                            mScenicDetailsModel.city = city.code;
-//                            mScenicDetailsModel.cityZh = city.name;
-//                            mScenicDetailsModel.location.latitude = city.location.latitude;
-//                            mScenicDetailsModel.location.longitude = city.location.longitude;
-//                        }
-                        mActionBar.getLeftTextView().setText(FormatUtils.cutStringStartBy(city.name, 3));
-                        secnicLoc.latitude = city.location.latitude;
-                        secnicLoc.longitude = city.location.longitude;
-                        secnicLoc.city = city.name;
-                        secnicLoc.city_en = city.code;
-
-                        mAdapter.setDataItems(null);
-                     //   mScenicListLoader = null;
-                     //   loadNearScenics(city.name);
-                    } else {
-                        Log.e("error onActivityResult, id = ", mId);
-                    }
-                    break;
-                case REQUEST_CODE_SEARCH_ET:
-                    int id = data.getIntExtra(Const.EXTRA_ID, -1);
-                    if (id > -1 && mId != id) {
-                        MobclickAgent.onEvent(getActivity(), MobConst.ID_INDEX_HOME_SECNIC);
-//                        Intent intent = new Intent(getActivity(), SecnicActivity.class);
-//                        intent.putExtra(Const.EXTRA_ID, id);
-//                        intent.putExtra(Const.EXTRA_COORDINATES, mLocation);
-//                        startActivity(intent);
-                    } else {
-                        Log.e("error onActivityResult, id = ", id);
-                    }
-                    break;
-                case REQUEST_CODE_COMMENT_DETAIL:
-                    break;
-                case REQUEST_CODE_POST_COMMENT: {
-                    Comment c = (Comment) data.getParcelableExtra(Const.EXTRA_COMMENT_DATA);
-                    if (c != null) {
-//                        mAdapter.getDataItems().add(0, c);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-    }
 
     @Override
     public void onDestroy() {

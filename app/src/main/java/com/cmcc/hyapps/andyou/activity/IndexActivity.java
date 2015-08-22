@@ -26,7 +26,7 @@ import com.cmcc.hyapps.andyou.widget.BottomTab;
 import com.cmcc.hyapps.andyou.widget.BottomTab.OnTabSelected;
 import com.umeng.analytics.MobclickAgent;
 
-public class IndexActivity extends BaseActivity implements OnClickListener ,LocationService.LocationListener {
+public class IndexActivity extends BaseActivity implements OnClickListener {
     /**
      * Position of tab.
      */
@@ -53,14 +53,13 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-//        LocationUtil.getInstance(this);
         //检查版本更新
         try {
             CheckUpdateUtil.getInstance(this).getUpdataInfo(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        //底部导航 点击切换fragment
         mBottomTab = (BottomTab) findViewById(R.id.bottom_tab);
         mBottomTab.setOnTabSelected(new OnTabSelected() {
 
@@ -72,11 +71,10 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
                     //首页
                     case POS_SCENIC:
                         if (mScenicFragment == null) {
-//                            mScenicFragment = new FreshHomeFragment();
                             mScenicFragment = new HomeFragment();
                         }
                         fragment = mScenicFragment;
-                        //友盟－统计发生次数
+                        //友盟－统计事件发生次数
                         MobclickAgent.onEvent(getBaseContext(), MobConst.ID_INDEX_TAB, MobConst.VALUE_INDEX_TAB_SCENIC);
                         break;
                     // 发现
@@ -108,9 +106,7 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
                         break;
 
                     default:
-                        Log.e("unknown position of SectionsPagerAdapter: " + index);
                         if (mScenicFragment == null) {
-//                            mScenicFragment=new BlankFragment();
                             mScenicFragment = new HomeFragment();
                         }
                         fragment = mScenicFragment;
@@ -123,6 +119,7 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
                         args = new Bundle();
                     }
                     args.putString(Const.ARGS_REQUEST_TAG, requestTag);
+                    //传递标示 BaseFragment
                     fragment.setArguments(args);
                 }
 
@@ -133,8 +130,6 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
                                 .add(R.id.container, fragment).commitAllowingStateLoss();
                     } else if (fragment.isAdded()) {
                         //当前fragment不为空，但是要显示的fragment已经添加过了，隐藏当前currentFragment，直接显示fragment
-                        // TODO: mCurrentFragment is still attached to view
-                        // hierarchy
                         getFragmentManager().beginTransaction().hide(mCurrentFragment)
                                 .show(fragment)
                                 .commitAllowingStateLoss();
@@ -153,7 +148,6 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
         mLocationSelectorView = findViewById(R.id.scenic_select_location);
         mLocationSelectorView.setOnClickListener(this);
 
-        //UmengUpdateAgent.update(this);
     }
 
     @Override
@@ -179,12 +173,11 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
         }
         switch (v.getId()) {
             case R.id.scenic_select_location: {
-                //定位城市
+                //选择 定位城市
                 Intent intent = new Intent(this, CityChooseActivity.class);
                 startActivityForResult(intent, REQ_SELECT_LOCATION);
                 break;
             }
-
             default:
                 break;
         }
@@ -198,15 +191,14 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQ_SELECT_LOCATION && data != null) {
             Location location = (Location) data.getParcelableExtra(Const.EXTRA_COORDINATES);
+            //接受来自 CityChooseActivity 的Loction
             if (location != null && location.isValid()) {
                 mLocationSelectorView.setVisibility(View.GONE);
                 Intent intent = new Intent(LocationService.ACTION_UPDATE_LOCATION);
                 intent.putExtra(Const.EXTRA_COORDINATES, location);
                 startService(intent);
-                Log.d("Mannally set city to %s", location);
             } else {
                 showLocationSelector();
-                Log.e("Invalid location %s", location);
             }
         } else if (mCurrentFragment != null) {
             mCurrentFragment.onActivityResult(requestCode, resultCode, data);
@@ -221,13 +213,4 @@ public class IndexActivity extends BaseActivity implements OnClickListener ,Loca
         LocationUtil.getInstance(AppUtils.getContext()).destroyAMapLocationListener();
     }
 
-    @Override
-    public void onReceivedLocation(Location loc) {
-        ToastUtils.show(this,"==city:"+loc.city);
-    }
-
-    @Override
-    public void onLocationError() {
-        ToastUtils.show(this,"==city:error");
-    }
 }

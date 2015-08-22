@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.cmcc.hyapps.andyou.app.ServerAPI.Upload.Bucket;
 import com.cmcc.hyapps.andyou.data.RequestManager;
 import com.cmcc.hyapps.andyou.model.Location;
+import com.cmcc.hyapps.andyou.model.Splash;
 import com.cmcc.hyapps.andyou.model.UploadToken;
 import com.cmcc.hyapps.andyou.util.AppUtils;
 import com.cmcc.hyapps.andyou.util.Log;
@@ -23,25 +24,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServerAPI {
+    //测试IP
+    private static final String ADDRESS_TEST = "http://112.54.207.48/";
+    //青海IP
+    private static final String ADDRESS = "http://111.44.243.117/";
     // Test server 测试服务器
-    private static final String SERVER_BASE_TEST = "http://tapi.selftravel.com.cn/api";
+    private static final String SERVER_BASE_TEST =ADDRESS_TEST + "api/";
     // Production server 正式服务器
-    private static final String SERVER_BASE_PRODUCT = "http://api.selftravel.com.cn/api";
+    private static final String SERVER_BASE =ADDRESS + "api/";
+
 
     public static final String KEY_DEBUG = "key_debug";
-
-    private static String mServerBase = SERVER_BASE_PRODUCT;
-
-    private final static String PARAM_ANONYMOUS = "anonymous";
+    //默认 测试
+    private static String mServerBase = SERVER_BASE_TEST;
 
     public static String getServerBase() {
-        return Const.DEBUG ? mServerBase : SERVER_BASE_PRODUCT;
+        return Const.DEBUG ? SERVER_BASE_TEST : SERVER_BASE;
     }
 
     //切换服务器
     public static void switchServer(boolean debug) {
-        mServerBase = debug ? SERVER_BASE_TEST : SERVER_BASE_PRODUCT;
-        Bucket.switchServer(debug);
+        mServerBase = debug ? SERVER_BASE_TEST : SERVER_BASE;
     }
 
     public static final String PROTOCOL_CHARSET = "utf-8";
@@ -57,65 +60,33 @@ public class ServerAPI {
         public static final String PARAM_LONGITUDE = "longitude";
     }
 
-    public static class Splash {
-        public static String URL = getServerBase() + "/splash";
-        public static final String PARAM_CITY = "city";
-        public static final String PARAM_DIVIDE = "divice";
-
-        public static String buildUrl(String city) {
-            Uri.Builder builder = Uri.parse(ServerAPI.Splash.URL).buildUpon();
-            builder.appendQueryParameter(ServerAPI.Splash.PARAM_CITY, city);
-            builder.appendQueryParameter(ServerAPI.Splash.PARAM_DIVIDE, "android");
-            return builder.build().toString();
-        }
-    }
-
-    public static class SearchList{
-        public static String URL = BASE_URL + "search/";
-    }
-
-    public static class BannerSlides {
-        public static final int TYPE_SCENIC = 0;
-        public static final int TYPE_ACTIVITY = 1;
-        public static final int TYPE_TRIP = 2;
-
-        public static final String META_DATA_SCENIC_ID = "scenic_id";
-        public static final String META_DATA_CLICK_URL = "click_url";
-        public static final String META_DATA_CITY = "city";
-
-        public static String URL = getServerBase() + "/bannerslides";
-        public static final String PARAM_CITY = "city";
-        public static final String PARAM_LIMIT = "limit";
-
-        public static String buildUrl(String city) {
-            Uri.Builder builder = Uri.parse(ServerAPI.BannerSlides.URL).buildUpon();
-            builder.appendQueryParameter(ServerAPI.BannerSlides.PARAM_CITY,
-                    city);
-            return builder.build().toString();
-        }
-    }
-
-//    public static final String BASE_URL = ADDRESS + "/api/";
-    //qing hai ip
-//private static final String ADDRESS = "http://112.54.207.48/";
-    private static final String ADDRESS = "http://111.44.243.117";
-    public static final String BASE_URL = ADDRESS + "/api/";
-
-    public static class HomeBanner{
-        public static final String URL =  BASE_URL+"banners/";
+    //城市列表－cityChooseAcivity
+    public static class CityList {
+        //private static  String CITY_ADDRESS_TEST="http://tapi.selftravel.com.cn/api/";
+        private static  String CITY_ADDRESS="http://api.selftravel.com.cn/api/";
+        public static String URL = CITY_ADDRESS + "city_list/";
     }
 
     public static class QHToken{
+
         public static final String AUTHE_TOKEN = "/api-token-verify/";
         public static String buildAuthToken() {
             String url = ADDRESS + AUTHE_TOKEN;
-          //  String url = "http://111.44.243.117/"+AUTHE_TOKEN;
+            //  String url = "http://111.44.243.117/"+AUTHE_TOKEN;
             return url;
         }
     }
 
+    public static class SearchList{
+        public static String URL = SERVER_BASE + "search/";
+    }
+
+    public static class HomeBanner{
+        public static final String URL =  SERVER_BASE+"banners/";
+    }
+
     public static class Guide{
-        public static final String BASE_GUIDE_SEARCH_URL =  BASE_URL+"guides/";
+        public static final String BASE_GUIDE_SEARCH_URL =  SERVER_BASE+"guides/";
         public static final String PARAM_SEARCH = "search";
 
         public static String buildSearchCommentUrl(String condition) {
@@ -132,7 +103,7 @@ public class ServerAPI {
     }
 
     public static class Route{
-        public static final String BASE_ROUTE_SEARCH_URL =  BASE_URL+"routes/";
+        public static final String BASE_ROUTE_SEARCH_URL =  SERVER_BASE+"routes/";
         public static final String PARAM_SEARCH = "search";
 
         public static String buildSearchCommentUrl(String condition) {
@@ -148,7 +119,7 @@ public class ServerAPI {
     }
 
     public static class VideoList {
-        public static String URL = BASE_URL + "videos/";
+        public static String URL = SERVER_BASE + "videos/";
 
         public static String buildItemDetailUrl(String id) {
             String detail_url = URL  + id + "/";
@@ -158,11 +129,11 @@ public class ServerAPI {
     }
 
     public static class QHApkList {
-        public static String URL = BASE_URL + "apks/";
+        public static String URL = SERVER_BASE + "apks/";
     }
 
     public static class QHSearchList {
-        public static String URL = BASE_URL + "search/";
+        public static String URL = SERVER_BASE + "search/";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -174,7 +145,7 @@ public class ServerAPI {
     }
 
     public static class QHScenicList {
-        public static String URL = BASE_URL + "scenics/";
+        public static String URL = SERVER_BASE + "scenics/";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -185,7 +156,7 @@ public class ServerAPI {
         }
     }
     public static class StrategyList {
-        public static String URL = BASE_URL + "guides/";
+        public static String URL = SERVER_BASE + "guides/";
 
         public static String buildStrategyListUrl() {
             Uri.Builder builder = Uri.parse(URL).buildUpon();
@@ -194,7 +165,7 @@ public class ServerAPI {
     }
 
     public static class NavigationList {
-        public static String URL = BASE_URL + "scenics_nav/";
+        public static String URL = SERVER_BASE + "scenics_nav/";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -206,7 +177,7 @@ public class ServerAPI {
     }
 
     public static class MarketShopList {
-        public static String URL = BASE_URL + "shops/";
+        public static String URL = SERVER_BASE + "shops/";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -224,7 +195,7 @@ public class ServerAPI {
     }
 
     public static class HotelsList {
-        public static String URL = BASE_URL + "shops/?stype=1";
+        public static String URL = SERVER_BASE + "shops/?stype=1";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -270,7 +241,7 @@ public class ServerAPI {
     }
 
     public static class RestaurantList {
-        public static String URL = BASE_URL + "shops/?stype=2";
+        public static String URL = SERVER_BASE + "shops/?stype=2";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -316,7 +287,7 @@ public class ServerAPI {
     }
 
     public static class SpecialList {
-        public static String URL = BASE_URL + "shops/?stype=3";
+        public static String URL = SERVER_BASE + "shops/?stype=3";
 
         public static final String PARAM_SEARCH = "search";
 
@@ -395,18 +366,18 @@ public class ServerAPI {
         public static final String PARAM_ID = "id";
 
 
-        public static String BASE_COLLECTION_URL =BASE_URL+ "users/";
-        public static String BASE_PUBLISH_URL = BASE_URL+ "comments";
-        public static final String BASE_COMMENT_URL =  BASE_URL+"comments/";
-        public static final String BASE_SECNIC_COMMENT_URL =  BASE_URL+"scenics/";
-        public static final String BASE_ROUTE_COMMENT_URL =  BASE_URL+"comments/";
-        public static final String BASE_RAIDER_COMMENT_URL =  BASE_URL+"comments/";
-        public static final String BASE_COMMENT_COMMENT_URL =  BASE_URL+"comments/";
+        public static String BASE_COLLECTION_URL =SERVER_BASE+ "users/";
+        public static String BASE_PUBLISH_URL = SERVER_BASE+ "comments";
+        public static final String BASE_COMMENT_URL =  SERVER_BASE+"comments/";
+        public static final String BASE_SECNIC_COMMENT_URL =  SERVER_BASE+"scenics/";
+        public static final String BASE_ROUTE_COMMENT_URL =  SERVER_BASE+"comments/";
+        public static final String BASE_RAIDER_COMMENT_URL =  SERVER_BASE+"comments/";
+        public static final String BASE_COMMENT_COMMENT_URL =  SERVER_BASE+"comments/";
 
-        public static final String BASE_PUBLISH_COMMENT_URL =  BASE_URL+"comments/";
-        public static final String BASE_MY_MESSAGE_URL =  BASE_URL+"comment_messages/";
-        public static final String BASE_WRITE_RAIDERS_URL =  BASE_URL+"guides/";
-        public static final String BASE_WRITE_RAIDERS_INFO_URL =  BASE_URL+"guide_infos/";
+        public static final String BASE_PUBLISH_COMMENT_URL =  SERVER_BASE+"comments/";
+        public static final String BASE_MY_MESSAGE_URL =  SERVER_BASE+"comment_messages/";
+        public static final String BASE_WRITE_RAIDERS_URL =  SERVER_BASE+"guides/";
+        public static final String BASE_WRITE_RAIDERS_INFO_URL =  SERVER_BASE+"guide_infos/";
 
         public static final String PARAM_TYPE = "obj_type";
         public static final String PARAM_OBJECT_ID = "object_id";
@@ -425,15 +396,15 @@ public class ServerAPI {
 
         /*obj_type=2是收藏的攻略 obj_type=3是收藏的路线*/
         public static String buildCollectionInfo(int type,int userId) {
-            BASE_COLLECTION_URL =BASE_URL+ "users/"+userId+"/collects/";
+            BASE_COLLECTION_URL =SERVER_BASE+ "users/"+userId+"/collects/";
             Uri.Builder builder = Uri.parse(ServerAPI.User.BASE_COLLECTION_URL).buildUpon();
             builder.appendQueryParameter(PARAM_TYPE,""+type);
             return builder.build().toString();
         }
         /*obj_type=2是发布的攻略 obj_type=3是发布的点评*/
         public static String buildPublishInfo(int type,int userId) {
-            if(type==2)BASE_PUBLISH_URL =BASE_URL+ "users/"+userId+"/guides/";
-            else if(type==3)BASE_PUBLISH_URL =BASE_URL+ "users/"+userId+"/comments/";
+            if(type==2)BASE_PUBLISH_URL =SERVER_BASE+ "users/"+userId+"/guides/";
+            else if(type==3)BASE_PUBLISH_URL =SERVER_BASE+ "users/"+userId+"/comments/";
 
             Uri.Builder builder = Uri.parse(ServerAPI.User.BASE_PUBLISH_URL).buildUpon();
 //            builder.appendQueryParameter(PARAM_TYPE,""+type);
@@ -441,7 +412,7 @@ public class ServerAPI {
         }
 
         public static String buildCommentInfo(int commentId) {
-            BASE_PUBLISH_URL =BASE_URL+ "comments/" + commentId;
+            BASE_PUBLISH_URL =SERVER_BASE+ "comments/" + commentId;
 
             Uri.Builder builder = Uri.parse(ServerAPI.User.BASE_PUBLISH_URL).buildUpon();
 //            builder.appendQueryParameter(PARAM_TYPE,""+type);
@@ -450,7 +421,7 @@ public class ServerAPI {
 
         //不添加obj_type可以搜索到
         public static String buildCollectionAllInfo(int userId) {
-            BASE_COLLECTION_URL =BASE_URL+ "users/"+userId+"/collects/";
+            BASE_COLLECTION_URL =SERVER_BASE+ "users/"+userId+"/collects/";
             Uri.Builder builder = Uri.parse(ServerAPI.User.BASE_COLLECTION_URL).buildUpon();
             return builder.build().toString();
         }
@@ -471,7 +442,7 @@ public class ServerAPI {
         }
         /*商城的评论*/
         public static String buildMarketCommentUrl(int marketId) {
-            Uri.Builder builder = Uri.parse(ServerAPI.BASE_URL + "shops/" + marketId + "/comments/").buildUpon();
+            Uri.Builder builder = Uri.parse(ServerAPI.SERVER_BASE + "shops/" + marketId + "/comments/").buildUpon();
             return builder.build().toString();
         }
 
@@ -491,7 +462,7 @@ public class ServerAPI {
             return builder.build().toString();
         }
         public static String buildUpdateUserInfoUrl(int userId) {
-            Uri.Builder builder = Uri.parse(BASE_URL + "users/" + userId + "/").buildUpon();
+            Uri.Builder builder = Uri.parse(SERVER_BASE + "users/" + userId + "/").buildUpon();
             return builder.build().toString();
         }
         public static String buildMessageListUrl() {
@@ -621,18 +592,7 @@ public class ServerAPI {
             return appendListParams(buildUrl(type, location), limit, offset);
         }
 
-        public static String buildUrl(Type type,String cityName, int limit, int offset) {
-            return appendListParams(buildCityUrl(type, cityName), limit, offset);
-        }
-        public static String buildCityUrl(Type type, String cityName) {
-            Uri.Builder builder = Uri.parse(URL).buildUpon();
-            builder.appendQueryParameter(PARAM_TYPE,
-                    type.typeValue);
-            if (null!=cityName&&!"".equals(cityName)) {
-                builder.appendQueryParameter(Splash.PARAM_CITY, cityName);
-            }
-            return builder.build().toString();
-        }
+
         public static String buildUrl(Type type, Location location) {
             Uri.Builder builder = Uri.parse(URL).buildUpon();
             builder.appendQueryParameter(PARAM_TYPE,
@@ -950,8 +910,8 @@ public class ServerAPI {
         public static String VOTE_URL = getServerBase() + "/vote";
 
 
-        public static String GUIDER_VOTE_URL = BASE_URL + "votes/";
-        public static String GUIDER_COLLECT_URL = BASE_URL + "collects/";//添加收藏
+        public static String GUIDER_VOTE_URL = SERVER_BASE + "votes/";
+        public static String GUIDER_COLLECT_URL = SERVER_BASE + "collects/";//添加收藏
 
         public enum Type {
             SCENIC("1"),
@@ -971,20 +931,6 @@ public class ServerAPI {
             }
         }
 
-        public static String buildUrl(Context context, int objectId, Type type, int limit,
-                int offset) {
-            return appendListParams(buildUrl(context, objectId, type), limit, offset);
-        }
-
-        public static String buildUrl(Context context, int objectId, Type type) {
-            Uri.Builder builder = Uri.parse(URL).buildUpon();
-            builder.appendQueryParameter(PARAM_OBJECT_ID, String
-                    .valueOf(objectId));
-            builder.appendQueryParameter(PARAM_OBJECT_TYPE, type.value());
-            builder.appendQueryParameter(PARAM_ANONYMOUS, AppUtils.getVistorId(context));
-
-            return builder.build().toString();
-        }
 
         public static Map<String, String> buildVoteParams(Context context, int objectId, Type type) {
             Map<String, String> params = new HashMap<String, String>();
@@ -1257,14 +1203,6 @@ public class ServerAPI {
             return builder.build().toString();
         }
 
-        public static String buildGetTripDetailUrl(Context context, int id) {
-
-            Uri.Builder builder = Uri.parse(TRIPS_DETAIL_URL).buildUpon();
-            builder.appendQueryParameter(PARAM_ID, String
-                    .valueOf(id));
-            builder.appendQueryParameter(PARAM_ANONYMOUS, AppUtils.getVistorId(context));
-            return builder.build().toString();
-        }
     }
 
     public static class Itinerary implements ListParams {
@@ -1333,18 +1271,6 @@ public class ServerAPI {
         }
     }
 
-    public static class VideoUpload {
-        public static String URL = getServerBase() + "/media/video_upload";
-    }
-
-    public static class ImageUpload {
-        public static String URL = getServerBase() + "/media/image_upload";
-    }
-
-    public static class CityList {
-        public static String URL = getServerBase() + "/city_list";
-
-    }
 
     public static class Feedback {
         public static String URL = getServerBase() + "/feedback";

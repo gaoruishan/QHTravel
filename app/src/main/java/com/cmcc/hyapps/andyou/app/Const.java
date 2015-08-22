@@ -5,7 +5,8 @@ package com.cmcc.hyapps.andyou.app;
  * Define global const here. Created by kuloud on 14-8-16.
  */
 public final class Const {
-    public static final boolean DEBUG = true;
+    public static final boolean OPEN_DEBUG = true;
+    public static final boolean COSE_DEBUG = false;
     public static final boolean UMENG_DEBUG = true;
 
     public static final String EXTRA_ID = "extra_id";
